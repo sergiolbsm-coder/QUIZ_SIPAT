@@ -85,7 +85,12 @@ function renderCurrentQuestion(state) {
     box.innerHTML = '<p class="muted">Nenhuma pergunta em andamento. Selecione uma na lista ao lado.</p>';
     controls.style.display = 'none';
     stopAdminTimer();
+    $('#speedRankingBox').style.display = 'none';
     return;
+  }
+
+  if (state.status !== 'reveal') {
+    $('#speedRankingBox').style.display = 'none';
   }
 
   const q = state.question;
@@ -114,6 +119,30 @@ function renderCurrentQuestion(state) {
     $('#adminTimerBar').style.width = state.status === 'reveal' ? '100%' : '0%';
   }
 }
+
+socket.on('question:reveal', (data) => {
+  if (!isLoggedIn) return;
+  const box = $('#speedRankingBox');
+  const el = $('#speedRankingList');
+  if (!data.speedRanking || !data.speedRanking.length) {
+    box.style.display = 'none';
+    return;
+  }
+  box.style.display = 'block';
+  el.innerHTML = '';
+  data.speedRanking.forEach(t => {
+    const medal = t.speedPosition === 1 ? '🥇' : t.speedPosition === 2 ? '🥈' : t.speedPosition === 3 ? '🥉' : `${t.speedPosition}º`;
+    const row = document.createElement('div');
+    row.className = 'row between';
+    row.style.padding = '6px 0';
+    row.style.borderBottom = '1px solid var(--card-border)';
+    row.innerHTML = `
+      <span class="row"><span>${medal}</span><span class="team-dot" style="background:${t.color}"></span> ${t.name}${t.correct ? '' : ' <span class="muted">(errou)</span>'}</span>
+      <span class="muted">${(t.timeMs / 1000).toFixed(1)}s</span>
+    `;
+    el.appendChild(row);
+  });
+});
 
 function startAdminTimer(startedAt, durationMs) {
   stopAdminTimer();

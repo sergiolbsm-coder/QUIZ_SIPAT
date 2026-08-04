@@ -19,6 +19,7 @@
       <input type="text" id="teamNameInput" maxlength="40" placeholder="Nome da equipe" />
       <button class="btn-primary btn-block mt" id="btnJoin">Entrar no quiz</button>
       <p class="muted mt" style="font-size:0.85rem">Cada equipe joga em um único aparelho. Combine com o grupo antes de responder!</p>
+      <p class="muted" style="font-size:0.85rem">Perdeu o acesso ou trocou de aparelho? Digite <b>exatamente o mesmo nome</b> da equipe para recuperar sua pontuação.</p>
     </section>
 
     <!-- Tela de espera -->
@@ -51,6 +52,10 @@
       <div id="revealOptions" class="options-grid"></div>
       <p class="mt" id="revealConcept"></p>
       <div class="mt center" id="revealMyResult"></div>
+      <div class="mt" id="speedRankingBox" style="display:none">
+        <h4 style="margin-bottom:6px">⚡ Quem respondeu mais rápido</h4>
+        <div id="speedRankingList"></div>
+      </div>
     </section>
 
     <!-- Ranking -->
