@@ -1,0 +1,13 @@
+{
+  "teams": {
+    "team_orqsk0co": {
+      "id": "team_orqsk0co",
+      "name": "Equipe Beta",
+      "color": "#e63946",
+      "score": 0,
+      "correctCount": 0,
+      "totalTimeMs": 0,
+      "history": []
+    }
+  }
+}

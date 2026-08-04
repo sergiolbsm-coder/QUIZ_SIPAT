@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Quiz SIPAT Friozem 2026</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1><span class="brand">Quiz SIPAT</span> Friozem 2026</h1>
+      <div class="sub" id="subtitle">Entre com o nome da sua equipe para jogar</div>
+    </header>
+
+    <!-- Tela de cadastro -->
+    <section id="screen-register" class="card">
+      <h3>Cadastro da equipe</h3>
+      <input type="text" id="teamNameInput" maxlength="40" placeholder="Nome da equipe" />
+      <button class="btn-primary btn-block mt" id="btnJoin">Entrar no quiz</button>
+      <p class="muted mt" style="font-size:0.85rem">Cada equipe joga em um único aparelho. Combine com o grupo antes de responder!</p>
+    </section>
+
+    <!-- Tela de espera -->
+    <section id="screen-waiting" class="card center" style="display:none">
+      <div class="badge round" id="teamBadge">Equipe</div>
+      <h2 id="waitingTeamName" style="margin-top:10px"></h2>
+      <p class="muted" id="waitingMsg">Aguardando o início da rodada...</p>
+      <div class="mt">
+        <span class="muted">Equipes conectadas: </span><b id="teamCount">0</b>
+      </div>
+      <button class="btn-ghost btn-small mt" id="btnEditName">Trocar nome da equipe</button>
+    </section>
+
+    <!-- Tela de pergunta -->
+    <section id="screen-question" class="card" style="display:none">
+      <div class="row between">
+        <span class="badge round" id="roundBadge">Rodada</span>
+        <span class="badge" id="progressBadge">Pergunta 1/65</span>
+      </div>
+      <div class="timer mt" id="timerDisplay">--</div>
+      <div class="progressbar"><div id="timerBar" style="width:100%"></div></div>
+      <h2 id="questionText" class="mt"></h2>
+      <div class="options-grid" id="optionsGrid"></div>
+      <p class="center muted mt" id="answerStatus"></p>
+    </section>
+
+    <!-- Tela de revelação -->
+    <section id="screen-reveal" class="card" style="display:none">
+      <h3 class="center">Resultado da pergunta</h3>
+      <div id="revealOptions" class="options-grid"></div>
+      <p class="mt" id="revealConcept"></p>
+      <div class="mt center" id="revealMyResult"></div>
+    </section>
+
+    <!-- Ranking -->
+    <section id="screen-ranking" class="card">
+      <div class="row between">
+        <h3 style="margin:0">Ranking</h3>
+        <span class="muted" id="rankingHint" style="font-size:0.8rem"></span>
+      </div>
+      <div id="rankingList" class="mt"></div>
+    </section>
+
+    <footer class="foot">Quiz SIPAT Friozem 2026 · Segurança é uma escolha diária</footer>
+  </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="play.js"></script>
+</body>
+</html>

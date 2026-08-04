@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Telão · Quiz SIPAT Friozem 2026</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+  body { padding: 32px; }
+  .wrap-wide { max-width: 1400px; }
+  header.top h1 { font-size: 2.4rem; }
+  #dashQuestion h2 { font-size: 2rem; }
+  .options-grid .opt-btn { font-size: 1.3rem; padding: 22px; }
+  .timer { font-size: 5rem; }
+  .rank-name { font-size: 1.2rem; }
+  .rank-score { font-size: 1.4rem; }
+  .rank-pos { width: 44px; height: 44px; font-size: 1.1rem; }
+</style>
+</head>
+<body>
+  <div class="wrap-wide">
+    <header class="top">
+      <h1><span class="brand">Quiz SIPAT</span> Friozem 2026</h1>
+      <div class="sub" id="statusLine">Aguardando início...</div>
+    </header>
+
+    <div id="lobbyView" class="card center">
+      <h2>Aguardando o início do quiz</h2>
+      <p class="muted" id="lobbyTeamCount">0 equipes conectadas</p>
+    </div>
+
+    <div id="questionView" class="card" style="display:none">
+      <div class="row between">
+        <span class="badge round" id="dashRoundBadge">Rodada</span>
+        <span class="badge" id="dashProgressBadge">Pergunta 1/65</span>
+      </div>
+      <div class="timer mt" id="dashTimer">--</div>
+      <div class="progressbar"><div id="dashTimerBar" style="width:100%"></div></div>
+      <div id="dashQuestion" class="mt">
+        <h2 id="dashQuestionText"></h2>
+        <div class="options-grid" id="dashOptions"></div>
+      </div>
+      <p class="center muted mt" id="dashAnswered"></p>
+    </div>
+
+    <div id="finishedView" class="card center" style="display:none">
+      <h2>Resultado final</h2>
+      <div class="podium" id="podium"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Ranking geral</h3>
+      <div id="dashRanking"></div>
+    </div>
+  </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
