@@ -42,6 +42,10 @@ function doJoin() {
     $('#waitingTeamName').textContent = teamName;
     $('#teamBadge').textContent = teamName;
     rankingScreen.style.display = 'block';
+    if (res.state) {
+      $('#teamCount').textContent = res.state.teamCount;
+      renderRanking(res.state.ranking);
+    }
     render();
   });
 }
