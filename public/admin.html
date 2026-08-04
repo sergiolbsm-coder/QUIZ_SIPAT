@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin · Quiz SIPAT Friozem 2026</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap" id="loginBox">
+    <header class="top">
+      <h1><span class="brand">Quiz SIPAT</span> Friozem 2026</h1>
+      <div class="sub">Painel do administrador</div>
+    </header>
+    <section class="card">
+      <input type="password" id="passInput" placeholder="Senha do administrador" />
+      <button class="btn-primary btn-block mt" id="btnLogin">Entrar</button>
+      <p class="muted mt" id="loginError" style="font-size:0.85rem"></p>
+    </section>
+  </div>
+
+  <div class="wrap-wide" id="adminBox" style="display:none">
+    <header class="top">
+      <h1><span class="brand">Quiz SIPAT</span> Friozem 2026 — Admin</h1>
+      <div class="sub">
+        <span class="badge" id="statusBadge">lobby</span>
+        <span class="badge" id="teamCountBadge">0 equipes</span>
+      </div>
+    </header>
+
+    <div class="grid-2">
+      <div>
+        <!-- Controle da pergunta atual -->
+        <section class="card">
+          <h3 style="margin-top:0">Pergunta atual</h3>
+          <div id="currentQuestionBox">
+            <p class="muted">Nenhuma pergunta em andamento. Selecione uma na lista ao lado.</p>
+          </div>
+          <div class="row mt" id="questionControls" style="display:none">
+            <div class="timer" id="adminTimer">--</div>
+            <div style="flex:1">
+              <div class="progressbar"><div id="adminTimerBar" style="width:100%"></div></div>
+              <div class="muted" id="answeredCount">0 respostas</div>
+            </div>
+          </div>
+          <div class="row mt">
+            <button class="btn-ghost" id="btnClose">Encerrar tempo</button>
+            <button class="btn-accent" id="btnReveal">Revelar resposta</button>
+          </div>
+        </section>
+
+        <!-- Equipes -->
+        <section class="card">
+          <h3 style="margin-top:0">Equipes cadastradas</h3>
+          <div id="teamsList"><p class="muted">Nenhuma equipe ainda.</p></div>
+        </section>
+
+        <!-- Ranking -->
+        <section class="card">
+          <h3 style="margin-top:0">Ranking</h3>
+          <div id="rankingBox"></div>
+        </section>
+
+        <!-- Controles gerais -->
+        <section class="card">
+          <h3 style="margin-top:0">Controles gerais</h3>
+          <div class="row">
+            <button class="btn-ghost" id="btnBackLobby">Voltar ao lobby</button>
+            <button class="btn-primary" id="btnFinish">Encerrar quiz (mostrar pódio)</button>
+          </div>
+          <div class="row mt">
+            <button class="btn-danger" id="btnResetScores">Zerar pontuação</button>
+            <button class="btn-danger" id="btnResetAll">Resetar tudo (equipes + pontos)</button>
+          </div>
+        </section>
+      </div>
+
+      <div>
+        <!-- Lista de perguntas / rodadas -->
+        <section class="card">
+          <h3 style="margin-top:0">Rodadas &amp; perguntas</h3>
+          <div class="row">
+            <label class="muted" style="font-size:0.85rem">Duração padrão (s):</label>
+            <input type="number" id="durationInput" value="20" min="5" max="120" style="width:80px" />
+          </div>
+          <div class="qlist mt" id="qlist"></div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="foot">Quiz SIPAT Friozem 2026 · Painel do administrador</footer>
+  </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
