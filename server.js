@@ -183,7 +183,7 @@ io.on('connection', (socket) => {
     socket.join(`team:${id}`);
     persist();
     broadcastState();
-    cb && cb({ ok: true, teamId: id, team });
+    cb && cb({ ok: true, teamId: id, team, state: publicState() });
   });
 
   socket.on('team:answer', ({ teamId, option }, cb) => {
