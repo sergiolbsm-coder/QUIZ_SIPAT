@@ -161,19 +161,32 @@ io.on('connection', (socket) => {
 
     let id = teamId;
     let team = id ? state.teams[id] : null;
+    let recovered = false;
 
     if (!team) {
-      id = 'team_' + Math.random().toString(36).slice(2, 10);
-      team = {
-        id,
-        name,
-        color: pickColor(),
-        score: 0,
-        correctCount: 0,
-        totalTimeMs: 0,
-        history: []
-      };
-      state.teams[id] = team;
+      // Recuperação de acesso: se já existe uma equipe com esse nome (ex.: o time
+      // perdeu o acesso, trocou de aparelho ou limpou o navegador), reconecta a ela
+      // em vez de criar uma equipe nova do zero.
+      const existing = Object.values(state.teams).find(
+        t => t.name.trim().toLowerCase() === name.toLowerCase()
+      );
+      if (existing) {
+        id = existing.id;
+        team = existing;
+        recovered = true;
+      } else {
+        id = 'team_' + Math.random().toString(36).slice(2, 10);
+        team = {
+          id,
+          name,
+          color: pickColor(),
+          score: 0,
+          correctCount: 0,
+          totalTimeMs: 0,
+          history: []
+        };
+        state.teams[id] = team;
+      }
     } else {
       team.name = name;
     }
@@ -183,7 +196,7 @@ io.on('connection', (socket) => {
     socket.join(`team:${id}`);
     persist();
     broadcastState();
-    cb && cb({ ok: true, teamId: id, team, state: publicState() });
+    cb && cb({ ok: true, teamId: id, team, recovered, state: publicState() });
   });
 
   socket.on('team:answer', ({ teamId, option }, cb) => {
@@ -304,28 +317,40 @@ io.on('connection', (socket) => {
         points
       });
 
-      perTeam[team.id] = { option: ans ? ans.option : null, answered: !!ans, correct: isCorrect, points, timeMs };
+      perTeam[team.id] = {
+        name: team.name,
+        color: team.color,
+        option: ans ? ans.option : null,
+        answered: !!ans,
+        correct: isCorrect,
+        points,
+        timeMs
+      };
     }
+
+    // Ranking de velocidade desta pergunta: só entram equipes que responderam,
+    // ordenadas do tempo de resposta mais rápido para o mais lento.
+    const speedRanking = Object.values(perTeam)
+      .filter(t => t.answered)
+      .sort((a, b) => a.timeMs - b.timeMs)
+      .map((t, i) => ({ ...t, speedPosition: i + 1 }));
 
     state.status = 'reveal';
     persist();
 
-    io.to('players').emit('question:reveal', {
+    const revealPayload = {
       questionId: q.id,
       correct: q.correct,
       options: q.options,
       concept: q.concept,
       perTeam,
+      speedRanking,
       ranking: ranking()
-    });
-    io.to('dashboard').emit('question:reveal', {
-      questionId: q.id,
-      correct: q.correct,
-      options: q.options,
-      concept: q.concept,
-      perTeam,
-      ranking: ranking()
-    });
+    };
+
+    io.to('players').emit('question:reveal', revealPayload);
+    io.to('dashboard').emit('question:reveal', revealPayload);
+    io.to('admins').emit('question:reveal', revealPayload);
 
     broadcastState();
     cb && cb({ ok: true });
