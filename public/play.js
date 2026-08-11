@@ -47,6 +47,9 @@ function doJoin() {
       renderRanking(res.state.ranking);
     }
     render();
+    if (res.recovered) {
+      $('#waitingMsg').textContent = `Bem-vindo de volta! Sua pontuação (${res.team.score} pts) foi recuperada.`;
+    }
   });
 }
 
@@ -189,13 +192,37 @@ socket.on('question:reveal', (data) => {
   if (!mine || !mine.answered) {
     result.innerHTML = `<span class="badge" style="background:var(--danger);color:#fff">Sua equipe não respondeu — 0 pontos</span>`;
   } else if (mine.correct) {
-    result.innerHTML = `<span class="badge" style="background:var(--accent);color:#fff">Acertou! +${mine.points} pontos</span>`;
+    result.innerHTML = `<span class="badge" style="background:var(--accent);color:#fff">Acertou! +${mine.points} pontos (respondeu em ${(mine.timeMs / 1000).toFixed(1)}s)</span>`;
   } else {
-    result.innerHTML = `<span class="badge" style="background:var(--danger);color:#fff">Errou — 0 pontos</span>`;
+    result.innerHTML = `<span class="badge" style="background:var(--danger);color:#fff">Errou — 0 pontos (respondeu em ${(mine.timeMs / 1000).toFixed(1)}s)</span>`;
   }
 
+  renderSpeedRanking(data.speedRanking);
   renderRanking(data.ranking);
 });
+
+function renderSpeedRanking(list) {
+  const box = $('#speedRankingBox');
+  const el = $('#speedRankingList');
+  if (!list || !list.length) {
+    box.style.display = 'none';
+    return;
+  }
+  box.style.display = 'block';
+  el.innerHTML = '';
+  list.forEach(t => {
+    const medal = t.speedPosition === 1 ? '🥇' : t.speedPosition === 2 ? '🥈' : t.speedPosition === 3 ? '🥉' : `${t.speedPosition}º`;
+    const row = document.createElement('div');
+    row.className = 'rank-row';
+    row.innerHTML = `
+      <div class="rank-pos">${medal}</div>
+      <div class="team-dot" style="background:${fmtColor(t.color)}"></div>
+      <div class="rank-name">${t.name}${t.correct ? '' : ' <span class="muted">(errou)</span>'}</div>
+      <div class="rank-score">${(t.timeMs / 1000).toFixed(1)}s</div>
+    `;
+    el.appendChild(row);
+  });
+}
 
 function renderRanking(list) {
   const el = $('#rankingList');

@@ -58,6 +58,7 @@ function renderQuestion(state) {
   }
 
   $('#dashAnswered').textContent = `${state.answeredCount} de ${state.teamCount} equipes já responderam`;
+  $('#speedRankingBox').style.display = 'none';
 
   if (state.status === 'question') {
     startDashTimer(state.questionStartedAt, state.durationMs);
@@ -92,8 +93,32 @@ socket.on('question:reveal', (data) => {
   document.querySelectorAll('#dashOptions .opt-btn').forEach(div => {
     if (div.dataset.key === data.correct) div.classList.add('correct');
   });
+  renderSpeedRanking(data.speedRanking);
   renderRanking(data.ranking);
 });
+
+function renderSpeedRanking(list) {
+  const box = $('#speedRankingBox');
+  const el = $('#speedRankingList');
+  if (!list || !list.length) {
+    box.style.display = 'none';
+    return;
+  }
+  box.style.display = 'block';
+  el.innerHTML = '';
+  list.forEach(t => {
+    const medal = t.speedPosition === 1 ? '🥇' : t.speedPosition === 2 ? '🥈' : t.speedPosition === 3 ? '🥉' : `${t.speedPosition}º`;
+    const row = document.createElement('div');
+    row.className = 'rank-row';
+    row.innerHTML = `
+      <div class="rank-pos">${medal}</div>
+      <div class="team-dot" style="background:${t.color}"></div>
+      <div class="rank-name">${t.name}${t.correct ? '' : ' <span class="muted">(errou)</span>'}</div>
+      <div class="rank-score">${(t.timeMs / 1000).toFixed(1)}s</div>
+    `;
+    el.appendChild(row);
+  });
+}
 
 function renderRanking(list) {
   const box = $('#dashRanking');
