@@ -82,7 +82,12 @@ function renderCurrentQuestion(state) {
   const controls = $('#questionControls');
 
   if (!state.question) {
-    box.innerHTML = '<p class="muted">Nenhuma pergunta em andamento. Selecione uma na lista ao lado.</p>';
+    box.innerHTML = `
+      <p class="muted">Nenhuma pergunta em andamento.</p>
+      <button class="btn-primary btn-block" id="btnQuickStart">▶ Iniciar o Quiz (Pergunta #1)</button>
+      <p class="muted" style="font-size:0.8rem">Ou role até "Rodadas &amp; perguntas" para começar de uma pergunta específica.</p>
+    `;
+    $('#btnQuickStart').addEventListener('click', () => startQuestion(0));
     controls.style.display = 'none';
     stopAdminTimer();
     $('#speedRankingBox').style.display = 'none';
