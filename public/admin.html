@@ -34,7 +34,7 @@
         <section class="card">
           <h3 style="margin-top:0">Pergunta atual</h3>
           <div id="currentQuestionBox">
-            <p class="muted">Nenhuma pergunta em andamento. Selecione uma na lista ao lado.</p>
+            <p class="muted">Carregando...</p>
           </div>
           <div class="row mt" id="questionControls" style="display:none">
             <div class="timer" id="adminTimer">--</div>
@@ -46,6 +46,10 @@
           <div class="row mt">
             <button class="btn-ghost" id="btnClose">Encerrar tempo</button>
             <button class="btn-accent" id="btnReveal">Revelar resposta</button>
+          </div>
+          <div class="mt" id="speedRankingBox" style="display:none">
+            <h4 style="margin-bottom:6px">⚡ Mais rápidos nesta pergunta</h4>
+            <div id="speedRankingList"></div>
           </div>
         </section>
 
