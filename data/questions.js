@@ -18,7 +18,7 @@ const modules = [
         concept: 'A Atenção exige presença e percepção do ambiente, das pessoas e dos detalhes.'
       },
       {
-        text: 'O que deve ser feito na etapa "Avaliação" do Método dos 5A?',
+        text: 'O que deve ser feito na etapa "Análise" do Método dos 5A?',
         options: {
           a: 'Avaliar os riscos, as possíveis consequências e as opções disponíveis.',
           b: 'Executar a tarefa e avaliar somente o resultado final.',
@@ -26,7 +26,7 @@ const modules = [
           d: 'Transferir a decisão para o profissional mais experiente.'
         },
         correct: 'a',
-        concept: 'Avaliar significa pensar antes de agir e compreender o impacto da decisão.'
+        concept: 'Analisar significa pensar antes de agir, avaliar os riscos e compreender o impacto da decisão.'
       },
       {
         text: 'O que caracteriza o pilar "Atitude"?',
@@ -65,7 +65,7 @@ const modules = [
         text: 'Qual mensagem resume melhor o Método dos 5A?',
         options: {
           a: 'Segurança depende principalmente da experiência individual.',
-          b: 'Segurança é uma escolha diária baseada em atenção, avaliação e atitude.',
+          b: 'Segurança é uma escolha diária baseada em atenção, análise e atitude.',
           c: 'Segurança está garantida quando todos os equipamentos estão funcionando.',
           d: 'Segurança é responsabilidade exclusiva dos profissionais especializados.'
         },
@@ -152,7 +152,7 @@ const modules = [
     title: 'Crenças e fatores humanos',
     questions: [
       {
-        text: 'Por que a crença "É só desta vez" representa um risco?',
+        text: 'Por que a crença "É só dessa vez" representa um risco?',
         options: {
           a: 'Porque uma exceção pode iniciar a repetição de um comportamento inseguro.',
           b: 'Porque qualquer alteração do procedimento provoca necessariamente um acidente.',
@@ -194,6 +194,50 @@ const modules = [
         },
         correct: 'a',
         concept: ''
+      },
+      {
+        text: 'Por que a crença "É rapidinho" é perigosa?',
+        options: {
+          a: 'Porque grande parte dos acidentes acontece justamente em atividades consideradas simples e rápidas.',
+          b: 'Porque tarefas rápidas nunca envolvem riscos reais.',
+          c: 'Porque só deve ser usada em tarefas de longa duração.',
+          d: 'Porque atividades demoradas são sempre mais seguras que as rápidas.'
+        },
+        correct: 'a',
+        concept: 'Subestimar uma tarefa por ela parecer rápida reduz a atenção justamente quando o risco ainda está presente.'
+      },
+      {
+        text: 'Qual é o erro por trás da crença "Nunca aconteceu comigo"?',
+        options: {
+          a: 'Usar o histórico pessoal sem acidentes como garantia de que ele nunca vai acontecer.',
+          b: 'Achar que acidentes só acontecem com quem já se acidentou antes.',
+          c: 'Acreditar que a experiência prévia elimina totalmente o risco.',
+          d: 'Considerar que apenas iniciantes correm esse tipo de risco.'
+        },
+        correct: 'a',
+        concept: '"Nunca aconteceu comigo" — até acontecer. O fato de um risco não ter se concretizado ainda não significa que ele deixou de existir.'
+      },
+      {
+        text: 'O que a crença "Não preciso conferir" ignora?',
+        options: {
+          a: 'Que conferir leva poucos segundos, enquanto corrigir um acidente pode levar meses.',
+          b: 'Que a conferência só é necessária em tarefas novas.',
+          c: 'Que apenas a liderança tem a obrigação de conferir os processos.',
+          d: 'Que conferir é uma etapa opcional quando o prazo está apertado.'
+        },
+        correct: 'a',
+        concept: 'O tempo investido em conferir é sempre menor do que o custo — em tempo, saúde e recuperação — de corrigir um acidente.'
+      },
+      {
+        text: 'Por que a crença "Eu dou conta" pode ser um risco?',
+        options: {
+          a: 'Porque pedir ajuda também é uma atitude segura, e insistir em fazer tudo sozinho pode levar ao limite.',
+          b: 'Porque pedir ajuda é sinal de incompetência.',
+          c: 'Porque apenas líderes podem pedir apoio a outras pessoas.',
+          d: 'Porque cada pessoa deve resolver todos os problemas sem envolver a equipe.'
+        },
+        correct: 'a',
+        concept: 'Reconhecer os próprios limites e buscar apoio é parte de uma cultura de segurança madura, não uma fraqueza.'
       }
     ]
   },
@@ -310,6 +354,28 @@ const modules = [
         },
         correct: 'a',
         concept: ''
+      },
+      {
+        text: 'Segundo os princípios da ergonomia, qual é a forma mais segura de carregar uma caixa?',
+        options: {
+          a: 'Com os braços estendidos, mantendo a caixa afastada do corpo.',
+          b: 'Com o tronco inclinado e girado para o lado.',
+          c: 'Com a caixa próxima ao corpo e a coluna alinhada.',
+          d: 'Da forma mais rápida possível, sem se preocupar com a postura.'
+        },
+        correct: 'c',
+        concept: 'Carga próxima ao corpo exige menos esforço, gera menos alavanca sobre ombros e costas e reduz a carga na coluna lombar.'
+      },
+      {
+        text: 'Qual é o objetivo da ergonomia no ambiente de trabalho?',
+        options: {
+          a: 'Aumentar a velocidade das tarefas, independentemente do esforço físico exigido.',
+          b: 'Reduzir a carga de trabalho imposta ao corpo, aumentando a capacidade de trabalho com segurança.',
+          c: 'Substituir a necessidade de pausas durante o expediente.',
+          d: 'Padronizar os móveis de todos os setores da empresa.'
+        },
+        correct: 'b',
+        concept: 'Pequenas mudanças na forma de levantar, carregar e movimentar fazem grande diferença para o corpo hoje e no futuro.'
       }
     ]
   },
@@ -318,26 +384,26 @@ const modules = [
     title: 'Inteligência emocional e comunicação',
     questions: [
       {
-        text: 'No Semáforo Emocional, qual ação é indicada para a cor vermelha?',
+        text: 'No Semáforo do Estresse, o que representa a cor vermelha?',
         options: {
-          a: 'Manter o ritmo e finalizar a tarefa antes de fazer uma pausa.',
-          b: 'Reduzir o ritmo, parar quando necessário, respirar e buscar apoio.',
-          c: 'Aguardar que outra pessoa perceba os sinais.',
-          d: 'Evitar comunicar o estado emocional para não preocupar a equipe.'
+          a: 'Estresse positivo — motivação, foco e alta energia, típicos da zona de crescimento.',
+          b: 'Estresse tolerável — o corpo e a mente pedem cuidado, mas apenas pequenos ajustes bastam.',
+          c: 'Estresse negativo — sinais como esgotamento e burnout, que exigem atenção e cuidado.',
+          d: 'Ausência total de estresse, sem nenhum tipo de desafio.'
         },
-        correct: 'b',
-        concept: ''
+        correct: 'c',
+        concept: 'Excesso constante de estresse adoece, reduz a performance e pode levar ao esgotamento (burnout).'
       },
       {
-        text: 'O que a cor amarela representa no Semáforo Emocional?',
+        text: 'O que caracteriza a cor amarela no Semáforo do Estresse?',
         options: {
-          a: 'Um estado de equilíbrio e alta energia.',
-          b: 'Sinais de tensão, cansaço ou dificuldade de concentração que exigem atenção.',
-          c: 'Uma situação de crise que exige o afastamento imediato.',
-          d: 'Um estado emocional sem interferência na segurança.'
+          a: 'Zona de crescimento, com motivação e produtividade em alta.',
+          b: 'Estresse tolerável — desafio saudável, mas o corpo e a mente pedem ajustes.',
+          c: 'Situação de crise que exige afastamento imediato.',
+          d: 'Ausência de qualquer desafio ou pressão no trabalho.'
         },
         correct: 'b',
-        concept: ''
+        concept: 'Nem todo estresse é ruim. O problema é quando ele se torna excessivo e constante.'
       },
       {
         text: 'Qual é a base de uma comunicação saudável?',
@@ -390,6 +456,17 @@ const modules = [
     title: 'Método O.L.H.A.R. e percepção de riscos',
     questions: [
       {
+        text: 'No Método O.L.H.A.R., o que propõe a etapa "Observe"?',
+        options: {
+          a: 'Observar o ambiente antes de agir, prestando atenção nos detalhes ao redor.',
+          b: 'Observar apenas o relógio para não atrasar a tarefa.',
+          c: 'Observar somente as instruções escritas no procedimento.',
+          d: 'Observar o desempenho dos colegas de equipe.'
+        },
+        correct: 'a',
+        concept: 'Esteja presente. Pergunte-se: o que está acontecendo ao meu redor?'
+      },
+      {
         text: 'No Método O.L.H.A.R., o que significa "Localize"?',
         options: {
           a: 'Identificar onde estão os perigos, as falhas ou as condições de risco.',
@@ -412,6 +489,17 @@ const modules = [
         concept: ''
       },
       {
+        text: 'O que propõe a etapa "Antecipe" do Método O.L.H.A.R.?',
+        options: {
+          a: 'Esperar a situação de risco acontecer para depois corrigir o problema.',
+          b: 'Tomar uma ação preventiva antes que o problema ocorra.',
+          c: 'Antecipar o horário de saída do trabalho sempre que possível.',
+          d: 'Avisar apenas o supervisor sobre o risco identificado, sem agir.'
+        },
+        correct: 'b',
+        concept: 'O que posso fazer agora para evitar problemas? Tome atitudes seguras antes que algo aconteça.'
+      },
+      {
         text: 'Qual é a finalidade da etapa "Reavalie"?',
         options: {
           a: 'Verificar continuamente se a situação mudou e se a ação precisa ser ajustada.',
@@ -431,7 +519,7 @@ const modules = [
           d: 'Transferir rapidamente a decisão quando houver alguma dúvida.'
         },
         correct: 'a',
-        concept: ''
+        concept: 'Antes de decidir, pare por 5 segundos e responda: o que pode acontecer? quem pode ser atingido? estou vendo tudo? vale a pena correr esse risco? posso esperar 5 segundos? "Perceber antes, decidir melhor."'
       },
       {
         text: 'Qual é a diferença entre perigo e risco?',
@@ -687,7 +775,7 @@ const modules = [
           d: 'Porque somente a velocidade determina o acidente.'
         },
         correct: 'b',
-        concept: 'Sono, pressa, distração e excesso de confiança podem formar uma cadeia de decisões inseguras.'
+        concept: 'Uma cadeia comum: dormiu mal → saiu atrasado → não tomou café → pegou o celular → ultrapassou o limite → frenagem brusca → acidente. "Acidentes não acontecem do nada."'
       },
       {
         text: 'Qual situação demonstra a aplicação do Método O.L.H.A.R. no trânsito?',
@@ -709,7 +797,51 @@ const modules = [
           d: 'A responsabilidade termina quando o colaborador sai da empresa.'
         },
         correct: 'b',
-        concept: 'Voltar para casa em segurança é parte do objetivo de qualquer jornada de trabalho.'
+        concept: 'Voltar para casa em segurança é parte do objetivo de qualquer jornada de trabalho. "Não deixe uma cadeira vazia na sua casa. Volte."'
+      },
+      {
+        text: 'Segundo o Código de Trânsito Brasileiro (Art. 29, §2º), qual é o princípio de responsabilidade entre os diferentes tipos de veículo?',
+        options: {
+          a: 'Todos têm exatamente a mesma responsabilidade, independentemente do porte do veículo.',
+          b: 'Os veículos de maior porte são sempre responsáveis pela segurança dos menores, e os motorizados pelos não motorizados.',
+          c: 'A responsabilidade é sempre exclusiva do pedestre, por ser o mais vulnerável.',
+          d: 'Apenas motociclistas têm responsabilidade legal reforçada no trânsito.'
+        },
+        correct: 'b',
+        concept: '"A lei do mais forte no trânsito é proteger o mais frágil": quanto maior o potencial de causar dano, maior deve ser o cuidado (caminhão → carro → moto → bicicleta → pedestre).'
+      },
+      {
+        text: 'De acordo com dados de 2024 (SIM/Datasus), qual foi a participação dos motociclistas no total de mortes no trânsito no Brasil?',
+        options: {
+          a: 'Cerca de 10%.',
+          b: 'Cerca de 25%.',
+          c: 'Cerca de 41,6%.',
+          d: 'Cerca de 60%.'
+        },
+        correct: 'c',
+        concept: 'Foram 15.459 mortes de motociclistas no Brasil em 2024. "Em uma moto, um pequeno erro pode ter uma consequência enorme."'
+      },
+      {
+        text: 'O que avalia o QCM (Questionário do Comportamento do Motorista)?',
+        options: {
+          a: 'Apenas a quantidade de multas recebidas pelo motorista.',
+          b: 'A frequência de erros, lapsos e violações no comportamento ao dirigir.',
+          c: 'Somente o tempo de habilitação do motorista.',
+          d: 'Exclusivamente o conhecimento teórico das leis de trânsito.'
+        },
+        correct: 'b',
+        concept: 'Erro é falha de percepção/julgamento; lapso é falha não intencional de atenção/memória; violação é conhecer a regra e decidir conscientemente não segui-la. O QCM não é um teste para aprovar ou reprovar — é uma ferramenta para conhecer seus comportamentos.'
+      },
+      {
+        text: 'Em que ano surgiu o movimento Maio Amarelo?',
+        options: {
+          a: '2005.',
+          b: '2014.',
+          c: '2018.',
+          d: '2022.'
+        },
+        correct: 'b',
+        concept: 'O Maio Amarelo foi idealizado pelo Observatório Nacional de Segurança Viária (ONSV) para promover conscientização por um trânsito mais seguro, humano e responsável.'
       }
     ]
   },
@@ -776,7 +908,79 @@ const modules = [
           d: 'Tratar infecções já instaladas.'
         },
         correct: 'b',
-        concept: 'Vacinação e exames preventivos são medidas complementares, não substitutas.'
+        concept: 'O HPV é o principal causador do câncer do colo do útero, mas também está associado a cânceres de ânus, pênis, boca e garganta. Vacinação e exames preventivos são medidas complementares, não substitutas.'
+      },
+      {
+        text: 'Após completar o esquema vacinal, de quanto em quanto tempo deve ser feito o reforço da vacina dT (difteria e tétano)?',
+        options: {
+          a: 'A cada 1 ano, sem exceção.',
+          b: 'A cada 5 anos, sem exceção.',
+          c: 'A cada 10 anos, podendo ser antecipado para 5 anos em situações de exposição ao risco.',
+          d: 'Não é necessário nenhum reforço após a primeira dose.'
+        },
+        correct: 'c',
+        concept: 'No calendário adulto, quem não completou o esquema deve iniciá-lo ou completá-lo; após o esquema completo, o reforço de dT é feito a cada 10 anos.'
+      },
+      {
+        text: 'Qual é o principal objetivo da vacina contra Influenza (gripe)?',
+        options: {
+          a: 'Prevenir infecções crônicas no fígado.',
+          b: 'Reduzir complicações, internações e mortes causadas pela gripe.',
+          c: 'Substituir a necessidade das demais vacinas do calendário.',
+          d: 'Tratar a gripe depois que ela já se instalou.'
+        },
+        correct: 'b',
+        concept: 'Vacina é prevenção, não é tratamento. "Quanto mais pessoas vacinadas, mais segura é a vida de todos."'
+      }
+    ]
+  },
+  {
+    id: 14,
+    title: 'Casos práticos: aplicando os 5A',
+    questions: [
+      {
+        text: 'Você acabou de sair da câmara fria sentindo frio intenso, dor de cabeça e mal-estar, mas ainda faltam tarefas para terminar o turno. Qual é a atitude mais alinhada aos 5A?',
+        options: {
+          a: 'Continuar trabalhando para terminar logo, sem comentar nada, para não atrasar a equipe.',
+          b: 'Comentar com o líder o que está sentindo e avaliar junto a necessidade de uma pausa para recuperação.',
+          c: 'Trocar de atividade por conta própria, sem avisar ninguém.',
+          d: 'Ignorar os sinais do corpo e seguir no ritmo normal até o fim do turno.'
+        },
+        correct: 'b',
+        concept: 'Seu corpo também é equipamento de proteção. Cuidar de você é cuidar de todos — isso une o pilar Alerta (comunicar) e Atitude (agir com segurança).'
+      },
+      {
+        text: 'Você precisa atravessar uma área de circulação. Uma empilhadeira está se aproximando, mas parece distante, e você está com pressa. Qual é a decisão mais segura?',
+        options: {
+          a: 'Atravessar rapidamente, já que aparenta dar tempo.',
+          b: 'Tentar chamar a atenção do operador e atravessar assim mesmo.',
+          c: 'Avaliar a situação e seguir o procedimento definido para circulação segura na área.',
+          d: 'Esperar alguém mais experiente atravessar primeiro para ver se é seguro.'
+        },
+        correct: 'c',
+        concept: '"Está longe, dá tempo" é um pensamento arriscado tanto na doca quanto no trânsito. Segurança não é sorte, é escolha — siga sempre o procedimento definido.'
+      },
+      {
+        text: 'Um caminhão está sendo posicionado para carga/descarga na doca. Você percebe um pequeno intervalo na movimentação e pensa em atravessar rápido. O que fazer?',
+        options: {
+          a: 'Atravessar rápido, já que o motorista provavelmente já viu você.',
+          b: 'Fazer um sinal para o motorista e atravessar com cuidado enquanto ele responde.',
+          c: 'Avaliar a situação e seguir o procedimento definido para circulação segura na doca.',
+          d: 'Esperar o caminhão buzinar para saber se é seguro passar.'
+        },
+        correct: 'c',
+        concept: 'Na doca, o caminhão pode não te ver — ponto cego, ré, pressa e distração aumentam o risco. Avaliar e seguir o procedimento é sempre mais seguro do que confiar que "o motorista viu".'
+      },
+      {
+        text: 'A visibilidade em um corredor está comprometida por condensação, vapor ou gelo, mas é um caminho que você já conhece bem. Qual é a atitude mais segura?',
+        options: {
+          a: 'Seguir normalmente, já que conhece o caminho e sabe se virar.',
+          b: 'Reduzir o ritmo e seguir com mais atenção, contando com a experiência prévia.',
+          c: 'Avaliar a situação e seguir o procedimento definido para deslocamentos com visibilidade comprometida.',
+          d: 'Pedir para outra pessoa ir na frente enquanto você segue no ritmo normal.'
+        },
+        correct: 'c',
+        concept: 'Conhecer o caminho não elimina o risco quando as condições mudam. "Eu conheço o caminho, está tudo bem" é exatamente o tipo de excesso de confiança que a Análise do Método dos 5A previne.'
       }
     ]
   }
