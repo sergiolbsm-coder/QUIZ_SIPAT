@@ -39,7 +39,7 @@ Outros controles do Admin: renomear/remover equipe, encerrar o tempo manualmente
 
 ## Conteúdo
 
-`data/questions.js` tem as 65 perguntas organizadas nos 13 módulos do treinamento SIPAT Friozem 2026 (Método dos 5A, Pirâmide de Bird, crenças e fatores humanos, saúde física, inteligência emocional, Método O.L.H.A.R., saúde preventiva, riscos psicossociais, estresse, Método S.E.T.A., comunicação, trânsito e sinais do corpo).
+`data/questions.js` tem 83 perguntas organizadas em 14 módulos do treinamento SIPAT Friozem 2026 (Método dos 5A, Pirâmide de Bird, crenças e fatores humanos, saúde física e ergonomia, inteligência emocional, Método O.L.H.A.R., saúde preventiva, riscos psicossociais, estresse, Método S.E.T.A., comunicação, trânsito e retorno seguro, sinais do corpo e vacinação, e casos práticos aplicando os 5A). Conteúdo atualizado em 20/08/2026 a partir das 4 palestras da semana (17, 18, 19 e 20/08).
 
 ## Deploy no Render (para equipes fora da sua rede)
 
