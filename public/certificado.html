@@ -183,6 +183,14 @@
     return n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-');
   }
 
+  function registrarEmissao(nome) {
+    fetch('/api/registrar-certificado', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome })
+    }).catch(() => {});
+  }
+
   btnPng.addEventListener('click', async () => {
     const nome = updatePreview();
     if (!nome) return;
@@ -194,6 +202,7 @@
       link.download = `Certificado - SIPAT Friozem 2026 - ${fileSafeName(nome)}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
+      registrarEmissao(nome);
       statusMsg.textContent = 'Certificado baixado!';
     } catch (e) {
       statusMsg.textContent = 'Erro ao gerar o certificado. Tente novamente.';
@@ -215,6 +224,7 @@
       const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: [842.25, 595.5] });
       pdf.addImage(imgData, 'JPEG', 0, 0, 842.25, 595.5);
       pdf.save(`Certificado - SIPAT Friozem 2026 - ${fileSafeName(nome)}.pdf`);
+      registrarEmissao(nome);
       statusMsg.textContent = 'Certificado baixado!';
     } catch (e) {
       statusMsg.textContent = 'Erro ao gerar o certificado. Tente novamente.';
