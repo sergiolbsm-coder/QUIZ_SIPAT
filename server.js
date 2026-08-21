@@ -9,6 +9,8 @@ const { questions, modules } = require('./data/questions');
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'friozem2026';
 const DB_FILE = path.join(__dirname, 'db.json');
+const CERT_LOG_FILE = path.join(__dirname, 'certificados.json');
+const SHEETS_WEBHOOK_URL = process.env.SHEETS_WEBHOOK_URL || '';
 const DEFAULT_DURATION_SEC = 20;
 const BASE_POINTS = 500;
 const BONUS_POINTS = 500;
@@ -54,9 +56,55 @@ function persist() {
 
 loadState();
 
+// ---------- Registro de certificados emitidos ----------
+let certLog = [];
+try {
+  if (fs.existsSync(CERT_LOG_FILE)) {
+    certLog = JSON.parse(fs.readFileSync(CERT_LOG_FILE, 'utf8'));
+  }
+} catch (err) {
+  console.error('Falha ao carregar certificados.json:', err.message);
+}
+
+function persistCertLog() {
+  fs.writeFile(CERT_LOG_FILE, JSON.stringify(certLog, null, 2), () => {});
+}
+
 // ---------- App / Socket setup ----------
 const app = express();
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.post('/api/registrar-certificado', async (req, res) => {
+  const nome = (req.body && req.body.nome ? String(req.body.nome) : '').trim().slice(0, 80);
+  if (!nome) return res.status(400).json({ ok: false, error: 'Nome é obrigatório.' });
+
+  const registro = { nome, emitidoEm: new Date().toISOString() };
+  certLog.push(registro);
+  persistCertLog();
+
+  let sheetsOk = null;
+  if (SHEETS_WEBHOOK_URL) {
+    try {
+      const r = await fetch(SHEETS_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome })
+      });
+      sheetsOk = r.ok;
+    } catch (err) {
+      console.error('Falha ao enviar registro para a planilha:', err.message);
+      sheetsOk = false;
+    }
+  }
+
+  res.json({ ok: true, sheets: sheetsOk });
+});
+
+app.get('/api/registros-certificados', (req, res) => {
+  if (req.query.senha !== ADMIN_PASSCODE) return res.status(401).json({ ok: false, error: 'Não autorizado.' });
+  res.json({ ok: true, total: certLog.length, registros: certLog });
+});
 
 const server = http.createServer(app);
 const io = new Server(server);
