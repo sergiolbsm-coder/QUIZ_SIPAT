@@ -66,7 +66,7 @@
 
   .lg-instituto { left: 1570.2px; top: 100.8px; width: 793.8px; height: 291.9px; }
   .lg-sipat { left: 114px; top: 900.3px; width: 790.2px; height: 366.9px; }
-  .lg-friozem { left: 1159.2px; top: 1279.2px; width: 648.9px; height: 275.4px; }
+  .lg-friozem { left: 1159.2px; top: 1279.2px; width: 330px; height: 330px; object-fit: contain; }
   .lg-sig { left: 1824.3px; top: 1269.3px; width: 497.1px; height: 235.8px; }
 
   .lbl-certificado {
@@ -74,12 +74,10 @@
     font-size: 52.5px; color: #187BDE; letter-spacing: 0.03em; white-space: nowrap;
   }
   .lbl-nome {
-    left: 1653.6px; top: 737.7px; width: 679.5px; white-space: normal;
+    left: 1746.15px; top: 737.7px; transform: translateX(-50%); white-space: nowrap;
     font-family: "Bebas Neue", sans-serif; font-weight: 400;
     font-size: 128.1px; color: #3F27F5; line-height: 1.08; text-transform: uppercase;
   }
-  .lbl-nome.long { font-size: 96px; top: 705px; }
-  .lbl-nome.xlong { font-size: 74px; top: 685px; }
   .lbl-corpo {
     left: 1132.8px; top: 946.5px; width: 1199.7px; white-space: normal;
     font-family: "Open Sans", sans-serif; font-weight: 300;
@@ -171,6 +169,16 @@
   window.addEventListener('resize', fitCertDisplay);
   fitCertDisplay();
 
+  let fontsReady = false;
+  Promise.all([
+    document.fonts.load('400 128px "Bebas Neue"'),
+    document.fonts.load('300 46px "Open Sans"'),
+    document.fonts.load('700 52px "Open Sans"')
+  ]).then(() => {
+    fontsReady = true;
+    updatePreview();
+  }).catch(() => { fontsReady = true; });
+
   const CONECTORES = ['de', 'da', 'do', 'das', 'dos', 'e'];
   function formatName(raw) {
     const words = raw.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -180,14 +188,26 @@
     }).join(' ');
   }
 
+  const NOME_MAX_WIDTH = 1150;
+  const NOME_MAX_FONT = 128.1;
+  const NOME_MIN_FONT = 34;
+
+  function fitNomeFont() {
+    if (!fontsReady) return; // evita medir com a fonte de fallback (ainda não carregou a Bebas Neue)
+    let size = NOME_MAX_FONT;
+    certName.style.fontSize = size + 'px';
+    while (certName.scrollWidth > NOME_MAX_WIDTH && size > NOME_MIN_FONT) {
+      size -= 2;
+      certName.style.fontSize = size + 'px';
+    }
+  }
+
   function updatePreview() {
     const raw = nameInput.value.trim();
     const formatted = formatName(raw);
     const display = formatted ? formatted.toUpperCase() : '[NOME COMPLETO]';
     certName.textContent = display;
-    certName.classList.remove('long', 'xlong');
-    if (display.length > 34) certName.classList.add('xlong');
-    else if (display.length > 22) certName.classList.add('long');
+    fitNomeFont();
     const ready = formatted.length >= 3;
     btnPdf.disabled = !ready;
     btnPng.disabled = !ready;
@@ -196,6 +216,9 @@
   nameInput.addEventListener('input', updatePreview);
 
   async function renderCanvas() {
+    await document.fonts.ready;
+    fontsReady = true;
+    fitNomeFont();
     const prevTransform = certEl.style.transform;
     certEl.style.transform = 'none';
     await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
