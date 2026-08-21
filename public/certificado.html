@@ -49,48 +49,57 @@
   .status { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin-top: 10px; min-height: 1.2em; }
 
   /* ---------- Certificado ---------- */
-  .cert-outer { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6); container-type: inline-size; container-name: cert; }
+  /* .cert tem tamanho FIXO em px (2526.75 x 1786.5 = escala 3x de 842.25 x 595.5 pt do modelo
+     original). .cert-outer mostra isso em escala responsiva via transform, mas na hora de
+     capturar (html2canvas) a transform é zerada e capturamos a resolução nativa. */
+  .cert-outer {
+    background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+    width: 100%; aspect-ratio: 2526.75 / 1786.5; position: relative;
+  }
   .cert {
-    position: relative; width: 100%; aspect-ratio: 842.25 / 595.5; background: #ffffff; overflow: hidden;
+    width: 2526.75px; height: 1786.5px; position: absolute; top: 0; left: 0;
+    transform-origin: top left; background: #ffffff;
   }
   .cert svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .cert img.logo { position: absolute; }
+  .cert img.logo { position: absolute; display: block; }
   .cert .txt { position: absolute; color: #000; }
 
-  .lg-instituto { left: 62.15%; top: 5.64%; width: 31.42%; }
-  .lg-friozem { left: 41.59%; top: 59.75%; width: 27.52%; }
-  .lg-sipat { left: 4.51%; top: 50.42%; width: 31.27%; }
-  .lg-sig { left: 72.20%; top: 71.05%; width: 19.67%; }
+  .lg-instituto { left: 1570.2px; top: 100.8px; width: 793.8px; height: 291.9px; }
+  .lg-sipat { left: 114px; top: 900.3px; width: 790.2px; height: 366.9px; }
+  .lg-friozem { left: 1159.2px; top: 1279.2px; width: 648.9px; height: 275.4px; }
+  .lg-sig { left: 1824.3px; top: 1269.3px; width: 497.1px; height: 235.8px; }
 
   .lbl-certificado {
-    left: 75.7%; top: 33.8%; font-family: "Open Sans", sans-serif; font-weight: 700;
-    font-size: 1.55cqw; color: #187BDE; letter-spacing: 0.03em; white-space: nowrap;
+    left: 1912.5px; top: 616.8px; font-family: "Open Sans", sans-serif; font-weight: 700;
+    font-size: 52.5px; color: #187BDE; letter-spacing: 0.03em; white-space: nowrap;
   }
   .lbl-nome {
-    left: 65.4%; top: 40.2%; right: 3.5%; font-family: "Bebas Neue", sans-serif; font-weight: 400;
-    font-size: 3.6cqw; color: #3F27F5; line-height: 1.08; text-transform: uppercase;
+    left: 1653.6px; top: 737.7px; width: 679.5px; white-space: normal;
+    font-family: "Bebas Neue", sans-serif; font-weight: 400;
+    font-size: 128.1px; color: #3F27F5; line-height: 1.08; text-transform: uppercase;
   }
-  .lbl-nome.long { font-size: 2.7cqw; top: 41.5%; }
-  .lbl-nome.xlong { font-size: 2.15cqw; top: 42.3%; }
+  .lbl-nome.long { font-size: 96px; top: 705px; }
+  .lbl-nome.xlong { font-size: 74px; top: 685px; }
   .lbl-corpo {
-    left: 44.8%; top: 51.8%; width: 47.5%; font-family: "Open Sans", sans-serif; font-weight: 300;
-    font-size: 1.38cqw; line-height: 1.42; color: #000;
+    left: 1132.8px; top: 946.5px; width: 1199.7px; white-space: normal;
+    font-family: "Open Sans", sans-serif; font-weight: 300;
+    font-size: 46.8px; line-height: 1.38; color: #000;
   }
   .lbl-nome-assina {
-    left: 75.8%; top: 81.0%; font-family: "Open Sans", sans-serif; font-weight: 700;
-    font-size: 1.08cqw; color: #187BDE; white-space: nowrap;
+    left: 1914.3px; top: 1464px; font-family: "Open Sans", sans-serif; font-weight: 700;
+    font-size: 36.9px; color: #187BDE; white-space: nowrap;
   }
   .lbl-founder {
-    left: 69.0%; top: 84.7%; font-family: "Open Sans", sans-serif; font-weight: 400;
-    font-size: 0.86cqw; color: #373635; letter-spacing: 0.02em; white-space: nowrap;
+    left: 1744.5px; top: 1520.7px; font-family: "Open Sans", sans-serif; font-weight: 400;
+    font-size: 29.1px; color: #373635; letter-spacing: 0.02em; white-space: nowrap;
   }
   .lbl-cnpj {
-    left: 2.1%; top: 88.2%; font-family: "Open Sans", sans-serif; font-weight: 400;
-    font-size: 0.94cqw; color: #373635; white-space: nowrap;
+    left: 53.1px; top: 1582.5px; font-family: "Open Sans", sans-serif; font-weight: 400;
+    font-size: 32.1px; color: #373635; white-space: nowrap;
   }
   .lbl-site {
-    left: 2.1%; top: 91.1%; font-family: "Open Sans", sans-serif; font-weight: 400;
-    font-size: 0.94cqw; color: #373635; letter-spacing: 0.01em; white-space: nowrap;
+    left: 53.1px; top: 1634.4px; font-family: "Open Sans", sans-serif; font-weight: 400;
+    font-size: 32.1px; color: #373635; letter-spacing: 0.01em; white-space: nowrap;
   }
 
   footer.foot { margin-top: 24px; color: var(--text-dim); font-size: 0.75rem; text-align: center; }
@@ -114,7 +123,7 @@
       <p class="status" id="statusMsg"></p>
     </section>
 
-    <div class="cert-outer">
+    <div class="cert-outer" id="certOuter">
       <div class="cert" id="certificate">
         <svg viewBox="0 0 842.25 595.5" preserveAspectRatio="none">
           <polygon points="-2.83,216.66 -2.83,-28.01 241.83,-28.01" fill="#187BDE" />
@@ -149,8 +158,19 @@
   const btnPng = $('#btnPng');
   const statusMsg = $('#statusMsg');
   const certEl = $('#certificate');
+  const certOuter = $('#certOuter');
+  const CERT_W = 2526.75;
+  const CERT_H = 1786.5;
 
-  // Formata em Title Case, mantendo conectores em minúsculo (exceto se for a primeira palavra)
+  // Ajusta a escala de exibição do certificado ao espaço disponível, sem afetar o tamanho
+  // real (fixo) usado na captura — evita depender de unidades relativas no html2canvas.
+  function fitCertDisplay() {
+    const scale = certOuter.clientWidth / CERT_W;
+    certEl.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', fitCertDisplay);
+  fitCertDisplay();
+
   const CONECTORES = ['de', 'da', 'do', 'das', 'dos', 'e'];
   function formatName(raw) {
     const words = raw.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -176,11 +196,14 @@
   nameInput.addEventListener('input', updatePreview);
 
   async function renderCanvas() {
-    return html2canvas(certEl, { scale: 3, useCORS: true, backgroundColor: '#ffffff' });
-  }
-
-  function fileSafeName(n) {
-    return n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-');
+    const prevTransform = certEl.style.transform;
+    certEl.style.transform = 'none';
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const canvas = await html2canvas(certEl, {
+      scale: 1, width: CERT_W, height: CERT_H, useCORS: true, backgroundColor: '#ffffff'
+    });
+    certEl.style.transform = prevTransform;
+    return canvas;
   }
 
   function registrarEmissao(nome) {
@@ -189,6 +212,10 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome })
     }).catch(() => {});
+  }
+
+  function fileSafeName(n) {
+    return n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-');
   }
 
   btnPng.addEventListener('click', async () => {
@@ -233,12 +260,6 @@
       btnPng.disabled = false; btnPdf.disabled = false;
     }
   });
-
-  // Garante que as fontes carregaram antes de liberar a geração
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.load('400 3.6vw "Bebas Neue"');
-    document.fonts.load('700 1.5vw "Open Sans"');
-  }
 </script>
 </body>
 </html>
