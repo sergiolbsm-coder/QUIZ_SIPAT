@@ -1,4 +1,4 @@
-// Banco de perguntas — Quiz SIPAT Friozem 2026
+// Banco de perguntas — Quiz SIPAT 2026
 // Cada módulo vira uma "rodada" dentro do sistema.
 
 const modules = [

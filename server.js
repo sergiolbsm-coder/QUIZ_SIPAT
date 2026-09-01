@@ -455,7 +455,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Quiz SIPAT Friozem 2026 rodando em http://localhost:${PORT}`);
+  console.log(`Quiz SIPAT 2026 rodando em http://localhost:${PORT}`);
   console.log(`  Painel de equipes: http://localhost:${PORT}/`);
   console.log(`  Painel do admin:   http://localhost:${PORT}/admin.html`);
   console.log(`  Telão / ranking:   http://localhost:${PORT}/dashboard.html`);

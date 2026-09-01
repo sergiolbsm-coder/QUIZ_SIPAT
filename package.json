@@ -1,7 +1,7 @@
 {
   "name": "sipat-quiz-friozem",
   "version": "1.0.0",
-  "description": "Quiz SIPAT Friozem 2026 - sistema de quiz por equipes com ranking em tempo real",
+  "description": "Quiz SIPAT 2026 - sistema de quiz por equipes com ranking em tempo real",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
