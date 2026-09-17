@@ -72,6 +72,11 @@ if (teamId && teamName) {
 
 // ---------- Estado do jogo ----------
 socket.on('state:update', (state) => {
+  if (state.eventName) {
+    $('#eventNameEl').textContent = state.eventName;
+    $('#footerText').textContent = state.eventName;
+    document.title = state.eventName;
+  }
   $('#teamCount').textContent = state.teamCount;
 
   if (!teamId) {

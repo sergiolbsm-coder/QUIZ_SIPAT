@@ -4,6 +4,28 @@ const $ = (sel) => document.querySelector(sel);
 let isLoggedIn = false;
 let lastState = null;
 let adminTimerInterval = null;
+let eventNameInputFocused = false;
+let lastTemplateId = null;
+
+$('#eventNameInput').addEventListener('focus', () => { eventNameInputFocused = true; });
+$('#eventNameInput').addEventListener('blur', () => { eventNameInputFocused = false; });
+
+$('#btnSaveEventName').addEventListener('click', () => {
+  const name = $('#eventNameInput').value.trim();
+  if (!name) return;
+  socket.emit('admin:setEventName', name, (res) => {
+    if (!res.ok) alert(res.error);
+  });
+});
+
+$('#btnApplyTemplate').addEventListener('click', () => {
+  const templateId = $('#templateSelect').value;
+  if (!templateId) return;
+  if (!confirm('Trocar o modelo de perguntas volta o quiz ao lobby (as equipes e pontuações são mantidas). Continuar?')) return;
+  socket.emit('admin:setTemplate', templateId, (res) => {
+    if (!res.ok) alert(res.error);
+  });
+});
 
 $('#btnLogin').addEventListener('click', login);
 $('#passInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') login(); });
@@ -40,10 +62,35 @@ function render(state) {
   $('#statusBadge').className = 'badge' + (state.status === 'question' ? ' live' : '');
   $('#teamCountBadge').textContent = `${state.teamCount} equipes`;
 
+  renderEventSettings(state);
   renderQuestionList(state);
   renderCurrentQuestion(state);
   renderTeams(state);
   renderRanking(state.ranking);
+}
+
+function renderEventSettings(state) {
+  if (state.eventName) {
+    $('#eventNameEl').textContent = state.eventName;
+    $('#footerText').textContent = `${state.eventName} · Painel do administrador`;
+    document.title = `Admin · ${state.eventName}`;
+    if (!eventNameInputFocused) $('#eventNameInput').value = state.eventName;
+  }
+
+  if (state.templates) {
+    const select = $('#templateSelect');
+    if (state.templateId !== lastTemplateId || select.options.length !== state.templates.length) {
+      select.innerHTML = '';
+      state.templates.forEach((t) => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = `${t.name} (${t.count} perguntas)`;
+        select.appendChild(opt);
+      });
+      lastTemplateId = state.templateId;
+    }
+    select.value = state.templateId;
+  }
 }
 
 function renderQuestionList(state) {

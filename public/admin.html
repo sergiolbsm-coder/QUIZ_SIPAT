@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Admin · Quiz SIPAT 2026</title>
+<title>Admin · Quiz Instituto da Liderança</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Cormorant+Garamond:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,7 +11,7 @@
   <div class="wrap" id="loginBox">
     <header class="top">
       <img class="logo" src="assets/logo.png" alt="Instituto da Liderança" />
-      <h1><span class="brand">Quiz SIPAT</span> 2026</h1>
+      <h1><span class="brand">Quiz Instituto da Liderança</span></h1>
       <div class="sub">Painel do administrador</div>
     </header>
     <section class="card">
@@ -24,7 +24,7 @@
   <div class="wrap-wide" id="adminBox" style="display:none">
     <header class="top">
       <img class="logo" src="assets/logo.png" alt="Instituto da Liderança" />
-      <h1><span class="brand">Quiz SIPAT</span> 2026 — Admin</h1>
+      <h1><span class="brand" id="eventNameEl">Quiz Instituto da Liderança</span> — Admin</h1>
       <div class="sub">
         <span class="badge" id="statusBadge">lobby</span>
         <span class="badge" id="teamCountBadge">0 equipes</span>
@@ -33,6 +33,22 @@
 
     <div class="grid-2">
       <div>
+        <!-- Configurações do evento -->
+        <section class="card">
+          <h3 style="margin-top:0">Configurações do evento</h3>
+          <label class="muted" style="font-size:0.85rem">Nome exibido nos painéis</label>
+          <div class="row mt">
+            <input type="text" id="eventNameInput" maxlength="80" style="flex:1" />
+            <button class="btn-primary btn-small" id="btnSaveEventName">Salvar</button>
+          </div>
+          <label class="muted mt" style="font-size:0.85rem;display:block">Modelo de perguntas ativo</label>
+          <div class="row mt">
+            <select id="templateSelect" style="flex:1"></select>
+            <button class="btn-accent btn-small" id="btnApplyTemplate">Aplicar modelo</button>
+          </div>
+          <p class="muted mt" style="font-size:0.8rem">Trocar o modelo volta o quiz ao lobby (mantém equipes e pontuações).</p>
+        </section>
+
         <!-- Controle da pergunta atual -->
         <section class="card">
           <h3 style="margin-top:0">Pergunta atual</h3>
@@ -95,7 +111,7 @@
       </div>
     </div>
 
-    <footer class="foot">Quiz SIPAT 2026 · Painel do administrador</footer>
+    <footer class="foot" id="footerText">Quiz Instituto da Liderança · Painel do administrador</footer>
   </div>
 
 <script src="/socket.io/socket.io.js"></script>

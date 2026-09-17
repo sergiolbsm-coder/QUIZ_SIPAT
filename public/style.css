@@ -98,7 +98,7 @@ header.top .sub {
   box-shadow: 0 8px 24px rgba(57,22,148,0.08);
 }
 
-input[type="text"], input[type="number"], input[type="password"] {
+input[type="text"], input[type="number"], input[type="password"], select {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;

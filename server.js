@@ -1,13 +1,19 @@
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
 
-const { questions, modules } = require('./data/questions');
+const { templates, DEFAULT_TEMPLATE_ID } = require('./data/questions');
 
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || 'friozem2026';
+// Sem ADMIN_PASSCODE definido, gera uma senha aleatória só desta execução —
+// evita repetir a mesma senha (antes fixa, "friozem2026") em todos os eventos.
+const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || crypto.randomBytes(4).toString('hex');
+if (!process.env.ADMIN_PASSCODE) {
+  console.log(`\n⚠️  ADMIN_PASSCODE não definido — senha do admin pra esta execução: ${ADMIN_PASSCODE}\n`);
+}
 const DB_FILE = path.join(__dirname, 'db.json');
 const CERT_LOG_FILE = path.join(__dirname, 'certificados.json');
 const SHEETS_WEBHOOK_URL = process.env.SHEETS_WEBHOOK_URL || '';
@@ -28,8 +34,18 @@ let state = {
   questionStartedAt: null,
   durationMs: DEFAULT_DURATION_SEC * 1000,
   answers: {}, // teamId -> { option, timeMs, submittedAt }
-  teams: {} // teamId -> { id, name, color, score, correctCount, totalTimeMs, history: [] }
+  teams: {}, // teamId -> { id, name, color, score, correctCount, totalTimeMs, history: [] }
+  eventName: 'Quiz Instituto da Liderança', // parametrizável no Admin, exibido nos painéis
+  templateId: DEFAULT_TEMPLATE_ID // qual banco de perguntas está ativo
 };
+
+function activeTemplate() {
+  return templates[state.templateId] || templates[DEFAULT_TEMPLATE_ID];
+}
+
+function templatesList() {
+  return Object.values(templates).map(t => ({ id: t.id, name: t.name, count: t.questions.length }));
+}
 
 let questionTimer = null;
 
@@ -39,6 +55,12 @@ function loadState() {
       const raw = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
       if (raw && raw.teams) {
         state.teams = raw.teams;
+      }
+      if (raw && raw.eventName) {
+        state.eventName = raw.eventName;
+      }
+      if (raw && raw.templateId && templates[raw.templateId]) {
+        state.templateId = raw.templateId;
       }
     }
   } catch (err) {
@@ -50,7 +72,11 @@ let saveTimeout = null;
 function persist() {
   clearTimeout(saveTimeout);
   saveTimeout = setTimeout(() => {
-    fs.writeFile(DB_FILE, JSON.stringify({ teams: state.teams }, null, 2), () => {});
+    fs.writeFile(DB_FILE, JSON.stringify({
+      teams: state.teams,
+      eventName: state.eventName,
+      templateId: state.templateId
+    }, null, 2), () => {});
   }, 250);
 }
 
@@ -124,7 +150,7 @@ function publicQuestion(q) {
     roundTitle: q.roundTitle,
     text: q.text,
     options: q.options,
-    total: questions.length
+    total: activeTemplate().questions.length
   };
 }
 
@@ -140,23 +166,28 @@ function ranking() {
 }
 
 function currentQuestionObj() {
+  const questions = activeTemplate().questions;
   return state.currentIndex >= 0 ? questions[state.currentIndex] : null;
 }
 
 function publicState() {
   const q = currentQuestionObj();
+  const tpl = activeTemplate();
   return {
     status: state.status,
     currentIndex: state.currentIndex,
-    totalQuestions: questions.length,
+    totalQuestions: tpl.questions.length,
     question: state.status === 'question' || state.status === 'closed' ? publicQuestion(q) : null,
     questionStartedAt: state.questionStartedAt,
     durationMs: state.durationMs,
     answeredCount: Object.keys(state.answers).length,
     teamCount: Object.keys(state.teams).length,
     ranking: ranking(),
-    modules: modules.map(m => ({ id: m.id, title: m.title, count: m.questions.length })),
-    questionList: questions.map(qq => ({ id: qq.id, index: qq.index, roundId: qq.roundId, roundTitle: qq.roundTitle, text: qq.text }))
+    modules: tpl.modules.map(m => ({ id: m.id, title: m.title, count: m.questions.length })),
+    questionList: tpl.questions.map(qq => ({ id: qq.id, index: qq.index, roundId: qq.roundId, roundTitle: qq.roundTitle, text: qq.text })),
+    eventName: state.eventName,
+    templateId: state.templateId,
+    templates: templatesList()
   };
 }
 
@@ -294,6 +325,29 @@ io.on('connection', (socket) => {
     return true;
   }
 
+  socket.on('admin:setEventName', (name, cb) => {
+    if (!requireAdmin(cb)) return;
+    name = (name || '').toString().trim().slice(0, 80);
+    if (!name) return cb && cb({ ok: false, error: 'Nome do evento é obrigatório.' });
+    state.eventName = name;
+    persist();
+    broadcastState();
+    cb && cb({ ok: true });
+  });
+
+  socket.on('admin:setTemplate', (templateId, cb) => {
+    if (!requireAdmin(cb)) return;
+    if (!templates[templateId]) return cb && cb({ ok: false, error: 'Modelo de perguntas inválido.' });
+    clearQuestionTimer();
+    state.templateId = templateId;
+    state.status = 'lobby';
+    state.currentIndex = -1;
+    state.answers = {};
+    persist();
+    broadcastState();
+    cb && cb({ ok: true });
+  });
+
   socket.on('admin:removeTeam', (teamId, cb) => {
     if (!requireAdmin(cb)) return;
     delete state.teams[teamId];
@@ -315,6 +369,7 @@ io.on('connection', (socket) => {
 
   socket.on('admin:startQuestion', ({ index, durationSec }, cb) => {
     if (!requireAdmin(cb)) return;
+    const questions = activeTemplate().questions;
     if (index < 0 || index >= questions.length) {
       return cb && cb({ ok: false, error: 'Pergunta inválida.' });
     }
@@ -455,7 +510,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Quiz SIPAT 2026 rodando em http://localhost:${PORT}`);
+  console.log(`${state.eventName} rodando em http://localhost:${PORT}`);
   console.log(`  Painel de equipes: http://localhost:${PORT}/`);
   console.log(`  Painel do admin:   http://localhost:${PORT}/admin.html`);
   console.log(`  Telão / ranking:   http://localhost:${PORT}/dashboard.html`);

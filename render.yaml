@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: sipat-quiz-friozem
+    name: sipat-quiz-idl
     env: node
     plan: free
     buildCommand: npm install

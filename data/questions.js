@@ -1,7 +1,33 @@
-// Banco de perguntas — Quiz SIPAT 2026
+// Banco de perguntas — múltiplos modelos de quiz, selecionáveis no Admin.
 // Cada módulo vira uma "rodada" dentro do sistema.
 
-const modules = [
+// Achata os módulos de um modelo em uma lista sequencial de perguntas,
+// cada uma sabendo a que módulo/rodada pertence.
+function buildFlatQuestions(modules) {
+  const flat = [];
+  let globalIndex = 0;
+  for (const mod of modules) {
+    mod.questions.forEach((q, idxInModule) => {
+      flat.push({
+        id: `m${mod.id}-q${idxInModule + 1}`,
+        index: globalIndex,
+        roundId: mod.id,
+        roundTitle: mod.title,
+        text: q.text,
+        options: q.options,
+        correct: q.correct,
+        concept: q.concept || ''
+      });
+      globalIndex++;
+    });
+  }
+  return flat;
+}
+
+// ==================================================================
+// Modelo: Quiz SIPAT (segurança do trabalho — 14 módulos, 83 perguntas)
+// ==================================================================
+const sipatModules = [
   {
     id: 1,
     title: 'Método dos 5A da Segurança',
@@ -986,26 +1012,275 @@ const modules = [
   }
 ];
 
-// Achata tudo em uma lista sequencial de perguntas, cada uma sabendo a que módulo/rodada pertence.
-function buildFlatQuestions() {
-  const flat = [];
-  let globalIndex = 0;
-  for (const mod of modules) {
-    mod.questions.forEach((q, idxInModule) => {
-      flat.push({
-        id: `m${mod.id}-q${idxInModule + 1}`,
-        index: globalIndex,
-        roundId: mod.id,
-        roundTitle: mod.title,
-        text: q.text,
-        options: q.options,
-        correct: q.correct,
-        concept: q.concept || ''
-      });
-      globalIndex++;
-    });
+// ==================================================================
+// Modelo: Quiz Senff — Versão avançada (treinamento corporativo —
+// feedback e metas)
+// ==================================================================
+const senffModules = [
+  {
+    id: 1,
+    title: 'Feedback e intervenções de liderança',
+    questions: [
+      {
+        text: 'Clareza ou meta?\nUma equipe recebe devoluções porque os relatórios apresentam campos incompletos. O líder já explicou a importância da entrega, mas cada profissional utiliza um modelo diferente e não existe critério formal de aceite.\nQual deve ser a primeira intervenção?',
+        options: {
+          a: 'Definir uma meta de redução das devoluções e acompanhar semanalmente',
+          b: 'Padronizar os campos obrigatórios e validar a compreensão da equipe',
+          c: 'Realizar feedback individual com os profissionais que tiveram devoluções',
+          d: 'Implantar dupla conferência antes do envio dos relatórios'
+        },
+        correct: 'b',
+        concept: ''
+      },
+      {
+        text: 'Treinamento ou acompanhamento?\nUma profissional recebeu uma nova responsabilidade. O resultado e o prazo foram explicados, e existe um manual disponível. Entretanto, ela nunca executou o procedimento e demonstra dúvidas nas etapas críticas.\nQual intervenção é mais adequada?',
+        options: {
+          a: 'Demonstrar a execução, solicitar uma aplicação assistida e acompanhar a próxima entrega',
+          b: 'Orientar a consulta ao manual e verificar o resultado no prazo final',
+          c: 'Dividir a atividade com uma pessoa mais experiente durante os próximos meses',
+          d: 'Estabelecer uma meta de aprendizagem e aguardar que ela desenvolva autonomia'
+        },
+        correct: 'a',
+        concept: ''
+      },
+      {
+        text: 'Obstáculo entre áreas\nUma analista precisa finalizar uma entrega até sexta-feira. Ela domina o processo e iniciou a atividade no prazo, mas depende de informações que ainda não foram enviadas por outras áreas.\nQual é a melhor intervenção do líder?',
+        options: {
+          a: 'Renegociar imediatamente o prazo final da entrega',
+          b: 'Transferir temporariamente a responsabilidade para outra pessoa',
+          c: 'Atuar nas dependências, definir prazos intermediários e manter a analista responsável',
+          d: 'Solicitar que a analista intensifique as cobranças e registre as tentativas realizadas'
+        },
+        correct: 'c',
+        concept: ''
+      },
+      {
+        text: 'Recorrência do desvio\nUm profissional conhece o procedimento, participou do treinamento e dispõe dos recursos necessários. Nas últimas quatro semanas, deixou de realizar três registros obrigatórios. Ele afirma que a demanda elevada o fez priorizar outras atividades.\nQual é a intervenção mais adequada?',
+        options: {
+          a: 'Revisar todo o processo para verificar se o procedimento continua necessário',
+          b: 'Reaplicar o treinamento e realizar uma avaliação de aprendizagem',
+          c: 'Estabelecer uma meta coletiva de cumprimento do procedimento',
+          d: 'Apresentar as ocorrências, discutir a priorização, firmar um acordo e acompanhar'
+        },
+        correct: 'd',
+        concept: ''
+      },
+      {
+        text: 'Construção do feedback\nUma colaboradora entregou três relatórios após o horário combinado, causando atraso na consolidação mensal.\nQual abordagem está mais completa?',
+        options: {
+          a: 'Apresentar os atrasos, reforçar o prazo e solicitar maior comprometimento',
+          b: 'Informar os impactos, ouvir a justificativa e solicitar que a situação não se repita',
+          c: 'Apresentar datas e impactos, compreender as causas, combinar a conduta esperada e definir acompanhamento',
+          d: 'Estabelecer uma meta de pontualidade e verificar o resultado no próximo fechamento'
+        },
+        correct: 'c',
+        concept: ''
+      },
+      {
+        text: 'Divergência sobre desempenho\nO líder afirma que determinado profissional atrasa frequentemente suas entregas. O profissional contesta e apresenta duas entregas recentes realizadas dentro do prazo.\nO que o líder deveria ter preparado antes da conversa?',
+        options: {
+          a: 'A comparação do desempenho do profissional com o restante da equipe',
+          b: 'A descrição do perfil comportamental observado ao longo do período',
+          c: 'A percepção dos clientes internos afetados pelos atrasos',
+          d: 'O histórico das entregas, os prazos combinados e os impactos produzidos'
+        },
+        correct: 'd',
+        concept: ''
+      },
+      {
+        text: 'Depois do feedback\nApós receber um feedback, o colaborador concordou em melhorar a qualidade dos registros. O líder definiu o padrão esperado, mas não marcou uma nova verificação.\nQual é o principal problema?',
+        options: {
+          a: 'O acordo não possui um ciclo de acompanhamento para verificar a mudança',
+          b: 'O feedback deveria ter sido convertido imediatamente em uma meta coletiva',
+          c: 'A responsabilidade pela mudança continuou concentrada no colaborador',
+          d: 'O líder deveria ter definido uma consequência em caso de reincidência'
+        },
+        correct: 'a',
+        concept: ''
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Metas, OKRs e indicadores',
+    questions: [
+      {
+        text: 'Melhor meta SMART\nQual meta está mais completa?',
+        options: {
+          a: 'Alcançar 92% de respostas dentro do prazo e revisar semanalmente os resultados',
+          b: 'Aumentar de 82% para 92% as solicitações respondidas no prazo até 30 de novembro',
+          c: 'Reduzir em dez pontos percentuais as solicitações atrasadas nos próximos meses',
+          d: 'Garantir que pelo menos 92% das solicitações sejam tratadas adequadamente'
+        },
+        correct: 'b',
+        concept: ''
+      },
+      {
+        text: 'Meta de manutenção\nUma equipe atingiu 96% de cumprimento dos prazos nos últimos três meses. O líder deseja evitar uma queda no desempenho.\nQual formulação é mais adequada?',
+        options: {
+          a: 'Aumentar continuamente o cumprimento dos prazos da área',
+          b: 'Manter a qualidade e a agilidade das entregas',
+          c: 'Evitar que o indicador fique abaixo do resultado atual',
+          d: 'Manter no mínimo 95% das entregas dentro do prazo durante o próximo trimestre'
+        },
+        correct: 'd',
+        concept: ''
+      },
+      {
+        text: 'Ausência de dados\nUma área deseja reduzir o retrabalho, mas não registra o volume de entregas devolvidas nem os motivos das correções.\nQual deve ser a primeira meta?',
+        options: {
+          a: 'Reduzir pela metade as devoluções percebidas pela equipe',
+          b: 'Implantar um checklist e eliminar as principais causas de retrabalho',
+          c: 'Registrar por 30 dias todas as devoluções, suas causas e as áreas envolvidas',
+          d: 'Comparar o volume de retrabalho com o de outras áreas da organização'
+        },
+        correct: 'c',
+        concept: ''
+      },
+      {
+        text: 'Atividade ou resultado?\nUma equipe estabeleceu: "Realizar uma reunião semanal de acompanhamento com todas as áreas envolvidas".\nQual avaliação é mais precisa?',
+        options: {
+          a: 'É uma meta SMART porque possui frequência e público definido',
+          b: 'É uma iniciativa que precisa estar vinculada a um resultado mensurável',
+          c: 'É um resultado-chave porque cria uma rotina de governança',
+          d: 'É um indicador de disciplina da equipe e pode ser acompanhado semanalmente'
+        },
+        correct: 'b',
+        concept: ''
+      },
+      {
+        text: 'Meta atingível\nUma área conclui atualmente 60% das demandas dentro do prazo. O líder estabelece alcançar 100% na semana seguinte, sem mudanças no processo, na equipe ou nos recursos.\nQual é o principal ponto de revisão?',
+        options: {
+          a: 'A viabilidade da meta diante do ponto de partida e das condições existentes',
+          b: 'A forma como o indicador será apresentado para a equipe',
+          c: 'A relevância do resultado para os clientes internos',
+          d: 'A especificidade da expressão "dentro do prazo"'
+        },
+        correct: 'a',
+        concept: ''
+      },
+      {
+        text: 'Indicador, meta ou resultado-chave?\nConsidere a frase:\nPercentual de análises concluídas dentro do prazo acordado.\nEssa frase representa:',
+        options: {
+          a: 'Um resultado-chave, porque demonstra o desempenho esperado',
+          b: 'Um indicador, porque define o que será medido, mas não o resultado desejado',
+          c: 'Uma meta, porque estabelece um critério objetivo de acompanhamento',
+          d: 'Um objetivo, porque direciona a equipe para maior agilidade'
+        },
+        correct: 'b',
+        concept: ''
+      },
+      {
+        text: 'Objetivo estratégico\nQual alternativa está formulada como objetivo?',
+        options: {
+          a: 'Alcançar 95% de cumprimento dos prazos até dezembro',
+          b: 'Acompanhar semanalmente o volume de entregas devolvidas',
+          c: 'Reduzir de 15 para 5 as pendências com mais de cinco dias',
+          d: 'Tornar o fluxo da área mais confiável e ágil para os clientes'
+        },
+        correct: 'd',
+        concept: ''
+      },
+      {
+        text: 'Resultado-chave\nO objetivo da área é "Melhorar a experiência dos clientes internos e externos".\nQual alternativa funciona melhor como resultado-chave?',
+        options: {
+          a: 'Implantar um painel para acompanhamento das solicitações',
+          b: 'Revisar o fluxo e definir responsáveis por cada etapa',
+          c: 'Aumentar de 80% para 93% as solicitações concluídas no prazo até dezembro',
+          d: 'Realizar uma reunião semanal com as áreas envolvidas'
+        },
+        correct: 'c',
+        concept: ''
+      }
+    ]
+  },
+  {
+    id: 3,
+    title: 'Delegação, autonomia e colaboração',
+    questions: [
+      {
+        text: 'Delegação completa\nO líder precisa delegar a atualização de um relatório mensal.\nQual orientação oferece melhor equilíbrio entre clareza e autonomia?',
+        options: {
+          a: '"Atualize o relatório no modelo definido até quinta-feira, às 16 horas. Você pode solicitar os dados diretamente às áreas e deve me sinalizar até quarta-feira se houver alguma pendência crítica."',
+          b: '"Atualize o relatório até quinta-feira e me procure sempre que tiver qualquer dúvida."',
+          c: '"Assuma a atualização do relatório mensal, utilizando como referência o documento do mês anterior."',
+          d: '"Organize a atualização do relatório e defina com as áreas o prazo necessário para a conclusão."'
+        },
+        correct: 'a',
+        concept: ''
+      },
+      {
+        text: 'Desenvolvimento da equipe\nUma profissional conhece o processo, apresenta bom domínio técnico e demonstra interesse. Entretanto, suas entregas atrasam porque dependem de várias aprovações sequenciais.\nQual é a melhor ação do líder?',
+        options: {
+          a: 'Acompanhar mais frequentemente para garantir o cumprimento das etapas',
+          b: 'Trabalhar gestão do tempo e priorização com a profissional',
+          c: 'Revisar as dependências, os níveis de aprovação e as condições de execução',
+          d: 'Reduzir temporariamente o volume de atividades sob sua responsabilidade'
+        },
+        correct: 'c',
+        concept: ''
+      },
+      {
+        text: 'Ampliação de autonomia\nUm profissional mantém entregas consistentes, antecipa riscos e toma decisões adequadas dentro do seu escopo.\nQual deve ser o próximo movimento do líder?',
+        options: {
+          a: 'Manter o mesmo nível de acompanhamento para assegurar a consistência',
+          b: 'Ampliar gradualmente a autonomia, definindo limites e pontos de controle',
+          c: 'Transferir integralmente a responsabilidade e interromper as verificações',
+          d: 'Aumentar a complexidade das entregas sem alterar o nível de decisão'
+        },
+        correct: 'b',
+        concept: ''
+      },
+      {
+        text: 'Colaboração entre áreas\nDurante uma entrega conjunta, uma área conclui sua parte, mas identifica que o processo ficará interrompido na etapa seguinte. O responsável afirma que sua obrigação já foi cumprida.\nQual é a intervenção mais alinhada à colaboração?',
+        options: {
+          a: 'Assumir temporariamente a etapa seguinte para evitar atrasos',
+          b: 'Encaminhar a situação ao gestor da outra área e encerrar sua participação',
+          c: 'Manter o escopo original e registrar formalmente o risco identificado',
+          d: 'Compartilhar o risco, esclarecer responsabilidades e combinar o próximo passo'
+        },
+        correct: 'd',
+        concept: ''
+      }
+    ]
+  },
+  {
+    id: 4,
+    title: 'Plano de aplicação',
+    questions: [
+      {
+        text: 'Plano de aplicação\nO líder quer reduzir as devoluções causadas por informações incompletas.\nQual plano apresenta a estrutura mais consistente?',
+        options: {
+          a: 'Medir as devoluções, identificar causas, definir padrão e indicador, estabelecer meta, responsáveis e acompanhamento semanal',
+          b: 'Criar um checklist, orientar a equipe e revisar o resultado ao final do trimestre',
+          c: 'Definir uma meta de redução, comunicar a equipe e oferecer feedback quando houver novos erros',
+          d: 'Realizar reuniões semanais, acompanhar os casos mais críticos e reconhecer as entregas corretas'
+        },
+        correct: 'a',
+        concept: ''
+      }
+    ]
   }
-  return flat;
-}
+];
 
-module.exports = { modules, questions: buildFlatQuestions() };
+// ==================================================================
+// Registro de modelos disponíveis para seleção no Admin
+// ==================================================================
+const templates = {
+  'sipat-2026': {
+    id: 'sipat-2026',
+    name: 'Modelo Quiz SIPAT',
+    modules: sipatModules,
+    questions: buildFlatQuestions(sipatModules)
+  },
+  'senff-feedback-metas': {
+    id: 'senff-feedback-metas',
+    name: 'Quiz Senff — Versão avançada',
+    modules: senffModules,
+    questions: buildFlatQuestions(senffModules)
+  }
+};
+
+const DEFAULT_TEMPLATE_ID = 'sipat-2026';
+
+module.exports = { templates, DEFAULT_TEMPLATE_ID, buildFlatQuestions };

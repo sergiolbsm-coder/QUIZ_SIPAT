@@ -6,6 +6,10 @@ let revealTimeout = null;
 socket.emit('dashboard:join');
 
 socket.on('state:update', (state) => {
+  if (state.eventName) {
+    $('#eventNameEl').textContent = state.eventName;
+    document.title = `Telão · ${state.eventName}`;
+  }
   $('#lobbyTeamCount').textContent = `${state.teamCount} equipe(s) conectada(s)`;
   renderRanking(state.ranking);
 
