@@ -52,8 +52,12 @@ socket.on('state:update', (state) => {
 socket.on('connect', () => {
   if (isLoggedIn) {
     // sessão de socket pode ter sido recriada; refaz login silenciosamente não é possível sem senha,
-    // então apenas recarrega a página para reautenticar caso a conexão caia.
+    // então recarrega a página — pede a senha de novo, mas garante estado 100% sincronizado.
+    location.reload();
   }
+});
+socket.on('disconnect', () => {
+  if (isLoggedIn) $('#connBanner').style.display = 'block';
 });
 
 function render(state) {

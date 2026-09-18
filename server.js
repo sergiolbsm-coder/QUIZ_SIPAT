@@ -133,7 +133,12 @@ app.get('/api/registros-certificados', (req, res) => {
 });
 
 const server = http.createServer(app);
-const io = new Server(server);
+// pingTimeout maior tolera quedas breves de rede/celular em segundo plano
+// sem derrubar a conexão — evita reconexões desnecessárias durante o evento.
+const io = new Server(server, {
+  pingTimeout: 60000,
+  pingInterval: 25000
+});
 
 function pickColor() {
   const used = new Set(Object.values(state.teams).map(t => t.color));
@@ -402,6 +407,23 @@ io.on('connection', (socket) => {
 
     const perTeam = {};
     for (const team of Object.values(state.teams)) {
+      // Se o admin reiniciar essa mesma pergunta (ex.: pra uma equipe que travou
+      // responder), quem já tinha um resultado registrado não pontua de novo —
+      // só mostra de novo o resultado que já valeu.
+      const already = team.history.find(h => h.questionId === q.id);
+      if (already) {
+        perTeam[team.id] = {
+          name: team.name,
+          color: team.color,
+          option: already.option,
+          answered: already.answered,
+          correct: already.correct,
+          points: already.points,
+          timeMs: already.timeMs
+        };
+        continue;
+      }
+
       const ans = state.answers[team.id];
       const isCorrect = !!ans && ans.option === q.correct;
       const timeMs = ans ? ans.timeMs : state.durationMs;

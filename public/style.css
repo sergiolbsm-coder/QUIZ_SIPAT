@@ -248,6 +248,22 @@ th { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; lette
 .mt { margin-top: 16px; }
 .mb { margin-bottom: 16px; }
 
+.conn-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: none;
+  text-align: center;
+  padding: 10px 16px;
+  background: var(--danger);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
 

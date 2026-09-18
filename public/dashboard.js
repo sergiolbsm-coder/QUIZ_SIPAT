@@ -3,7 +3,22 @@ const $ = (sel) => document.querySelector(sel);
 let dashTimerInterval = null;
 let revealTimeout = null;
 
-socket.emit('dashboard:join');
+// ---------- Reconexão ----------
+// Mesma lógica do painel da equipe: se cair e reconectar sozinho, recarrega
+// a página pra garantir que o telão volte 100% sincronizado.
+let everConnected = false;
+socket.on('connect', () => {
+  socket.emit('dashboard:join');
+  if (everConnected) {
+    location.reload();
+    return;
+  }
+  everConnected = true;
+  $('#connBanner').style.display = 'none';
+});
+socket.on('disconnect', () => {
+  $('#connBanner').style.display = 'block';
+});
 
 socket.on('state:update', (state) => {
   if (state.eventName) {

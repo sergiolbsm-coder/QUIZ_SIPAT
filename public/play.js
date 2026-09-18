@@ -1,6 +1,24 @@
 const socket = io();
 
 const $ = (sel) => document.querySelector(sel);
+
+// ---------- Reconexão ----------
+// Se a conexão cair (rede instável, tela bloqueada, app em segundo plano) e
+// o socket reconectar sozinho, recarrega a página em vez de tentar remendar
+// o estado — garante que a equipe sempre volte 100% sincronizada com a
+// pergunta atual, em vez de ficar com uma tela "meio" atualizada.
+let everConnected = false;
+socket.on('connect', () => {
+  if (everConnected) {
+    location.reload();
+    return;
+  }
+  everConnected = true;
+  $('#connBanner').style.display = 'none';
+});
+socket.on('disconnect', () => {
+  $('#connBanner').style.display = 'block';
+});
 const screens = {
   register: $('#screen-register'),
   waiting: $('#screen-waiting'),
